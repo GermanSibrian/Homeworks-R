@@ -1,0 +1,27 @@
+```{r}
+##################################################################################################
+#                               GERMAN OMAR CHIGUICHÓN SIBRIAN                                   #
+##################################################################################################
+
+#MATRIZ ALEATORIA CON VALORES DE PESO ENTRE 160 Y 200
+peso <- round(matrix(runif(25, min=160, max=200), nrow = 5, ncol = 5, byrow = FALSE), digits = 2)
+#NOMBRE DE COLUMNAS
+titles <- c("January","February",'March',"April","May")
+#NOMBRE DE FILAS
+names <- c("Carlos", "German", "Juan", "Andrea", "Luis")
+#ASIGNAR TITULOS A LAS COLUMNAS Y FILAS
+colnames(peso) <- titles
+rownames(peso) <- names
+# PROMEDIO DE LOS PESOS PERSONALES (FILAS)
+PPersonal <- c(rowMeans(peso))
+# PROMEDIO MENSUAL DE LOS PESOS (COLUMNAS)
+PGeneral <- c(colMeans(peso), mean(PPersonal))
+# MATRIZ CON PESOS PROMEDIOS PERSONALES
+pp_prom <- cbind(peso, PPersonal )
+# MATRIZ CON PESOS MENSUALES PROMEDIO
+pg_prom <- rbind(pp_prom, PGeneral)
+tabla_pesos <- pg_prom
+# SE MUESTRA LA MATRIZ CON LOS PESOS
+tabla_pesos
+```
+
