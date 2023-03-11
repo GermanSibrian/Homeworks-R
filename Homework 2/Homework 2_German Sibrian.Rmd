@@ -1,0 +1,212 @@
+UNIVERSIDAD DE SAN CARLOS DE GUATEMALA
+FACULTAD DE INGENIERÍA
+ESCUELA DE ESTUDIOS DE POSTGRADO
+MAESTRÍA EN INGENIERÍA PARA LA INDUSTRIA CON ESPECIALIZACIÓN EN CIENCIAS DE LA COMPUTACIÓN
+CURSO: Fundamentos de Programación y Scripting
+ESTUDIANTE: German Omar Chiguichón Sibrian
+
+
+-*************************************************************************************************************-
+-********************************************** FUNCIONES EN R: **********************************************-
+-*************************************************************************************************************-
+
+En R, las funciones son bloques de código que realizan una tarea que pueden ser llamados y utilizados en dife-
+rentes partes de un programa. Las funciones pueden tomar argumentos de entrada, realizar cálculos y devolver 
+valores de salida a partir de los valores que se ingresen en la entrada.
+
+Para definir una función en R, se utiliza la palabra clave 'function' seguida del nombre de la función y los
+argumentos entre paréntesis.
+
+-*************************************************************************************************************-
+
+1. ESTRUCTURA DE UNA FUNCIÓN:
+
+  En R Studio, la estructura básica de una función es la siguiente:
+  
+```{r}
+# nombre <- function(arg1, arg2, ...) {
+#  resultado <- ...
+#  return(resultado)
+# }
+```
+
+  Donde:
+    
+   a. nombre: es el nombre que se le da a la función, debe ser único dentro del ambiente de trabajo.
+    
+   b. arg1, arg2, ...: son los argumentos de entrada de la función y se especifican entre paréntesis. 
+      Estos pueden ser opcionales o requeridos, y pueden tener valores por defecto.
+      
+   c. resultado: es el valor que devuelve la función. Este puede ser cualquier tipo de dato que se desee.
+      Incluyendo vectores, matrices, data frames, listas, entre otros.
+        
+   d. return(resultado): es la sentencia que indica qué valor debe ser devuelto por la función.
+   
+-*************************************************************************************************************-
+
+2. EJEMPLO DE UNA FUNCIÓN:
+
+  A continuación se muestra el ejemplo de una función:
+
+```{r}
+
+# Función que calcula la raíz cuadrada y si el número ingresado es negativo, devuelve un mensaje de error
+
+raiz <- function(arg1) {
+  if (arg1 < 0) {
+    stop("Ingrese un número positivo")
+  } else {
+    sqrt(arg1)
+  }
+}
+
+raiz(6)
+
+```
+-*************************************************************************************************************-
+
+3. ARGUMENTOS DE UNA FUNCIÓN:
+
+  En lenguaje R, los argumentos de una función son los valores que se entregan a la función para que sean proce-
+  sados y se obtenga un resultado. Los argumentos se especifican dentro de los paréntesis de la definición de la
+  función, y estos van separados por comas.
+  
+  En R, los argumentos de una función pueden ser de varios tipos, entre los cuales se encuentran:
+  
+  a.Argumentos obligatorios: son aquellos que deben ser especificados en la llamada a la función, y corresponden 
+    con los parámetros definidos en la declaración de la función.
+  b. Argumentos opcionales: son aquellos que pueden ser omitidos en la llamada a la función, y tienen un valor por
+    defecto especificado en la declaración de la función.
+  c. Argumentos de longitud variable: son aquellos que permiten pasar un número variable de argumentos a la función
+    y se utilizan mediante los operadores '...' y 'list()'.
+  d. Argumentos con nombre: son aquellos que se llaman por su nombre al momento de pasarlos a la función. 
+    Esto permite cambiar el orden en que se pasan los argumentos sin que afecte el resultado.
+  e. Argumentos con valores por defecto: son aquellos que tienen un valor predefinido en la declaración de la 
+    función, y se utilizan en caso de que no se especifique un valor en la llamada.
+  
+  -*************************************************************************************************************-
+
+4. ARGUMENTOS POR VALOR:
+
+  En R, los argumentos de una función pueden ser pasados por valor o por referencia. Los argumentos por valor son 
+  copias de los valores originales, lo que significa que los cambios que se hagan dentro de la función no afectarán 
+  los valores originales.
+  
+  Para pasar un argumento por valor en R, se utiliza la asignación de una variable local dentro de la función. La 
+  variable local se inicializa con el valor del argumento original, y cualquier cambio que se haga dentro de la 
+  función afectará solo a la variable local, no al argumento original.
+  
+  Por ejemplo:
+  
+```{r}
+duplicar <- function(x) {
+  y <- x  # Se asigna el valor de x a una variable local y
+  y <- y * 2  # Se modifica la variable local y
+  return(y)  # Se devuelve la variable local modificada
+}
+
+valor_original <- 5
+nuevo_valor <- duplicar(valor_original)
+
+valor_original
+nuevo_valor
+```
+    
+-*************************************************************************************************************-
+-********************************************** FAMILIA APPLY: ***********************************************-
+-*************************************************************************************************************-
+
+1. LAPPLY:
+
+  En R 'lapply()' es una función que se utiliza para aplicar una función a cada elemento de una lista y devuelve 
+  una lista con los resultados correspondientes.
+
+
+  2.1 Uso de lapply con funciones:
+  
+  a. Función que eleva a una potencia determinada una lista de números y devuelve una lista con los resultados:
+
+```{r}
+# Lista de números
+mi_lista <- list(1, 2, 3, 4, 5, 6)
+# Función que eleva a una potencia determinada
+elevar <- function(x, p){
+  return(x**p)
+}
+# Aplicar la función lapply a cada elemento de la lista
+resultado <- lapply(mi_lista, elevar, p = 3)
+
+resultado
+```
+
+  b. Función que recibe una lista de vectores numéricos y calcula la suma de cada vector:
+
+```{r}
+# Lista de vectores
+lista_num <- list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9))
+# Suma de cada vector
+suma_num <- lapply(lista_num, sum)
+
+suma_num
+```
+
+-*************************************************************************************************************-
+
+2. SAPPLY:
+
+  En R 'sapply()' es una función que se utiliza para aplicar una función a cada elemento de una lista o vector 
+  y devolver los resultados como un vector. Es una forma conveniente de aplicar una función a todos los elemen-
+  tos de una lista o vector en lugar de tener que escribir un bucle for.
+
+  2.1 Uso de sapply con funciones:
+  
+  a. Función que eleva a una potencia determinada una lista de números y devuelve un vector con los resultados:
+
+```{r}
+# Lista de números
+mi_lista <- list(1, 2, 3, 4, 5, 6)
+# Función que eleva a una potencia determinada
+elevar <- function(x, p){
+  return(x**p)
+}
+# Aplicar la función sapply a cada elemento de la lista
+resultado <- sapply(mi_lista, elevar, p = 3)
+
+resultado
+```
+  b. Función que recibe una lista de vectores numéricos y calcula la suma de cada vector:
+
+```{r}
+# Lista de vectores
+lista_num <- list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9))
+# Suma de cada vector
+suma_num <- sapply(lista_num, sum)
+
+suma_num
+```  
+
+-*************************************************************************************************************-
+
+3. VAPPLY:
+
+  La función 'vapply()' en R se utiliza para aplicar una función a un vector y devolver un vector con un tipo y 
+  longitud específicos. A diferencia de 'sapply()' o 'lapply()', 'vapply()' permite especificar el tipo y longi-
+  tud del vector de salida.
+
+  3.1 Uso de vapply con funciones:
+  
+  a. Función que eleva a una potencia determinada un vector de números y devuelve un vector con los resultados:
+
+```{r}
+# Lista de números
+mi_vector <- c(1, 2, 3, 4, 5, 6)
+# Función que eleva a una potencia determinada
+elevar_potencia <- function(x, p) {
+  return(x**p)
+}
+# Aplicar la función vapply a cada elemento del vector
+resultados <- vapply(mi_vector, elevar_potencia, p = 3, FUN.VALUE = double(1))
+
+resultados
+```
+-*************************************************************************************************************-
