@@ -1,0 +1,154 @@
+UNIVERSIDAD DE SAN CARLOS DE GUATEMALA
+FACULTAD DE INGENIERÍA
+ESCUELA DE ESTUDIOS DE POSTGRADO
+MAESTRÍA EN INGENIERÍA PARA LA INDUSTRIA CON ESPECIALIZACIÓN EN CIENCIAS DE LA COMPUTACIÓN
+CURSO: Fundamentos de Programación y Scripting
+ESTUDIANTE: German Omar Chiguichón Sibrian
+
+
+-*******************************************************************************************************************-
+-********************************************* LEER CSV DESDE R: ***************************************************-
+-*******************************************************************************************************************-
+
+Para leer un archivo CSV en R, se puede utilizar la función 'read.csv()' o la función 'read.table()', que son 
+funciones integradas de R.
+La función 'read.csv()' es específica para leer archivos CSV y tiene la siguiente sintaxis básica:
+
+```{r}
+# 3 datos <- read.csv("ruta/del/archivo.csv")
+```
+
+Donde "datos" es el nombre que se le asigna al data frame que contiene los datos del archivo CSV, y 
+"ruta/al/archivo.csv" es la ubicación del archivo CSV que se desea leer.Por ejemplo, si se desea leer un archivo
+CSV llamado "ejemplo.csv" que se encuentra en el directorio de trabajo actual, se puede utilizar la siguiente 
+línea de código:
+
+```{r}
+# datos <- read.csv("ejemplo.csv")
+```
+
+La función read.table() es más general y puede leer diferentes tipos de archivos de texto, incluyendo archivos CSV. 
+Tiene la siguiente sintaxis básica:
+
+```{r}
+# datos <- read.table("ruta/al/archivo.csv", header = TRUE, sep = ",")
+```
+
+Donde datos es el nombre que se le asigna al dataframe que contiene los datos del archivo CSV, "ruta/al/archivo.csv" 
+es la ubicación del archivo CSV que se desea leer, 'header = TRUE' indica que la primera línea del archivo CSV 
+contiene los nombresde las columnas, y 'sep = ","' indica que el separador de campo utilizado en el archivo CSV 
+es la coma.
+Por ejemplo, si se desea leer el mismo archivo CSV llamado "ejemplo.csv" utilizando la función 'read.table()', se puede 
+utilizar la siguiente línea de código:
+
+```{r}
+# datos <- read.table("datos.csv", header = TRUE, sep = ",")
+```
+
+En ambos casos, el resultado es un dataframe que contiene los datos del archivo CSV, y se puede utilizar la función 
+'head()' para mostrar los primeros registros del dataframe y verificar que se hayan leído correctamente.
+
+-*******************************************************************************************************************-
+
+-*******************************************************************************************************************-
+-***************************************** FUNCIÓN SELECT DE DPLYR: ************************************************-
+-*******************************************************************************************************************-
+
+La función 'select()' de la paquetería dplyr en R se utiliza para seleccionar columnas específicas de un data frame. 
+La sintaxis básica de 'select()' es la siguiente:
+
+```{r}
+# select(data, columnas_a_seleccionar)
+```
+
+Donde "data" es el dataframe del cual se van a seleccionar las columnas, y "columnas_a_seleccionar" es una lista de 
+nombres de columnas o expresiones que indican qué columnas deben ser seleccionadas.
+
+Por ejemplo, supongamos que tenemos un data frame llamado datos con tres columnas llamadas "nombre", "edad" y "salario".
+Para seleccionar solo las columnas nombre y salario, podemos usar la función 'select()' de la siguiente manera:
+
+```{r}
+# Cargar la paquetería dplyr
+# library(dplyr)
+
+# Seleccionar las columnas 'nombre' y 'salario' del data frame 'datos'
+# datos_seleccionados <- select(datos, nombre, salario)
+```
+
+En este ejemplo, la función 'select()' se utiliza para seleccionar las columnas nombre y salario del dataframe datos, 
+y el resultado se almacena en un nuevo dataframe llamado "datos_seleccionados".
+
+También es posible seleccionar columnas utilizando expresiones. Por ejemplo, si queremos seleccionar todas las columnas
+que comienzan con la letra "a", podemos hacerlo de la siguiente manera:
+
+
+```{r}
+# Seleccionar todas las columnas que comienzan con 'a' del dataframe 'datos'
+#datos_a <- select(datos, starts_with("a"))
+```
+
+En este ejemplo, la función 'starts_with()' se utiliza para seleccionar todas las columnas del dataframe datos que 
+comienzan con la letra "a", y el resultado se almacena en un nuevo dataframe llamado "datos_a".
+
+-*******************************************************************************************************************-
+
+```{r}
+library(dplyr)
+dataset_results <- read.csv("primary_results.csv")
+dataset_results
+```
+
+1. Filtrar todos los votos del estado de Florida.
+
+```{r}
+dataset_results
+
+dataset_results %>%
+  filter(state == "Florida")
+```
+
+2. Utilice operadores lógicos (& and |), según corresponda:
+
+```{r}
+
+# 2.1. Filtrar votos para los candidatos Hillary Clinton o Donald Trump.
+
+dataset_results %>%
+  filter(candidate == "Hillary Clinton" | candidate == "Donald Trump")
+```
+
+```{r}
+# 2.2. Filtrar votos para el partido Demócrata y el condado Shelby.
+
+dataset_results %>%
+  filter(party == "Democrat" & county == "Shelby")
+```
+
+```{r}
+# 2.3. Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a 15000.
+
+dataset_results %>%
+   filter(state == "Alabama", votes > 15000)
+```
+
+3. Utilice la función select y arrange para el siguiente filtrado
+
+```{r}
+# 3.1. Filtrar votos para el estado de Texas y el condado Denton, seleccionando únicamente las columnas party, candidate, votes, luego ordene de forma descendente por la columna votes.
+
+dataset_results %>%
+  filter(state == "Texas" & county == "Denton") %>%
+  select(party, candidate, votes) %>%
+  arrange(desc(votes))
+```
+
+4. Utilice la función select y arrange para el siguiente filtrado
+
+```{r}
+# 4.1. Filtrar por el partido Republicano, que el candidato sea Ted Cruz en el estado de Alaska, luego agregue una columna que se llame vote_count que sea la división de votes por fraction_votes (votes/fraction_votes), finalmente ordene de forma descendente por vote_count.
+
+dataset_results %>%
+  filter(party == "Republican" & candidate == "Ted Cruz" & state == "Alaska") %>%
+  mutate(vote_count = votes/fraction_votes) %>%
+  arrange(desc(vote_count))
+```
